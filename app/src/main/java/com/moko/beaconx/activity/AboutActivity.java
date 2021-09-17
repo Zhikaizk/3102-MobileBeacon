@@ -1,7 +1,6 @@
 package com.moko.beaconx.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -33,9 +32,12 @@ public class AboutActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_company_website:
-                Uri uri = Uri.parse("https://" + getString(R.string.company_website));
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+//                Uri uri = Uri.parse("https://" + getString(R.string.company_website));
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Testin);
+                Intent myIntent = new Intent(AboutActivity.this, Okhttp.class);
+//                startActivity(Testing);
+                AboutActivity.this.startActivity(myIntent);
+                
                 break;
         }
     }

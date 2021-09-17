@@ -76,6 +76,7 @@ public class SlotDataActivity extends FragmentActivity implements NumberPickerVi
         createFragments();
         npvSlotType.setOnValueChangedListener(this);
         npvSlotType.setMinValue(0);
+        // slot got 6 but never set all 6 slot as NO DATA as it may stop boardcast and need to reset.
         npvSlotType.setMaxValue(4);
         npvSlotType.setValue(slotData.frameTypeEnum.ordinal());
         tvSlotTitle.setText(slotData.slotEnum.getTitle());
