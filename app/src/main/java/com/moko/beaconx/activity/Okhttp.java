@@ -32,10 +32,11 @@ public class Okhttp extends AppCompatActivity {
         // creating a client
         OkHttpClient okHttpClient = new OkHttpClient();
 
-        RequestBody formbody = new FormBody.Builder().add("value","be nice").add("","").build();
+        //RequestBody formbody = new FormBody.Builder().add("value","be nice").add("","").build();
         //ASYNCHRONOUS POST REQUEST
 
-        Request request = new Request.Builder().url("http://192.168.1.123:5000/post").post(formbody).build();
+//        Request request = new Request.Builder().url("http://192.168.1.123:5000/get").post(formbody).build();
+        Request request = new Request.Builder().url("http://192.168.1.123:5000/get?hithere=testing").build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
