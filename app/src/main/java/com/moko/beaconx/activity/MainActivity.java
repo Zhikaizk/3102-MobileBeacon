@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -45,6 +46,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -96,6 +98,7 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
     private HashMap<String, BeaconXInfo> beaconXInfoHashMap;
     private ArrayList<BeaconXInfo> beaconXInfos;
     private BeaconXListAdapter adapter;
+    private String macaddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -281,6 +284,7 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
             return;
         }
         beaconXInfoHashMap.put(beaconXInfo.mac, beaconXInfo);
+        macaddress = beaconXInfo.mac;
     }
 
     @Override
@@ -383,7 +387,10 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
                 }
                 break;
             case R.id.iv_about:
-                startActivity(new Intent(this, AboutActivity.class));
+                Intent i = new Intent(this, AboutActivity.class);
+                Log.i("testing",macaddress);
+                i.putExtra("mac",macaddress);
+                startActivity(i);
                 break;
             case R.id.rl_edit_filter:
             case R.id.rl_filter:

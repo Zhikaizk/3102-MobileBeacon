@@ -1,5 +1,6 @@
 package com.moko.beaconx.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +37,13 @@ public class Okhttp extends AppCompatActivity {
         //ASYNCHRONOUS POST REQUEST
 
 //        Request request = new Request.Builder().url("http://192.168.1.123:5000/get").post(formbody).build();
-        Request request = new Request.Builder().url("http://192.168.1.123:5000/get?hithere=testing").build();
+        Bundle extras = getIntent().getExtras();
+        String mac ="";
+        if (extras != null) {
+            mac = extras.getString("mac");
+            //The key argument here must match that used in the other activity
+        }
+        Request request = new Request.Builder().url("http://192.168.1.123:5000/get?hithere="+mac+"'").build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {

@@ -2,6 +2,7 @@ package com.moko.beaconx.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -34,9 +35,19 @@ public class AboutActivity extends BaseActivity {
             case R.id.tv_company_website:
 //                Uri uri = Uri.parse("https://" + getString(R.string.company_website));
 //                Intent intent = new Intent(Intent.ACTION_VIEW, Testin);
-                Intent myIntent = new Intent(AboutActivity.this, Okhttp.class);
+                Bundle extras = getIntent().getExtras();
+                String mac ="";
+                if (extras != null) {
+                     mac = extras.getString("mac");
+                    //The key argument here must match that used in the other activity
+                }
+                Intent i = new Intent(AboutActivity.this, Okhttp.class);
+                Log.i("testing",mac);
+                i.putExtra("mac",mac);
+                startActivity(i);
+//                Intent myIntent = new Intent(AboutActivity.this, Okhttp.class);
 //                startActivity(Testing);
-                AboutActivity.this.startActivity(myIntent);
+                AboutActivity.this.startActivity(i);
                 
                 break;
         }
