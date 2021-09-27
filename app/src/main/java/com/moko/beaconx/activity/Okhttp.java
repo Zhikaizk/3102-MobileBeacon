@@ -43,7 +43,7 @@ public class Okhttp extends AppCompatActivity {
             mac = extras.getString("mac");
             //The key argument here must match that used in the other activity
         }
-        Request request = new Request.Builder().url("http://192.168.1.123:5000/get?hithere="+mac+"'").build();
+        Request request = new Request.Builder().url("http://ec2-13-229-105-253.ap-southeast-1.compute.amazonaws.com:5000/getmacaddress?MACaddress="+mac+"'").build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
