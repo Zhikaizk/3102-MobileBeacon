@@ -1,6 +1,7 @@
 package com.moko.support.handler;
 
 import android.bluetooth.BluetoothDevice;
+import android.util.Log;
 
 import com.moko.support.callback.MokoScanDeviceCallback;
 import com.moko.support.entity.DeviceInfo;
@@ -25,6 +26,8 @@ public class MokoLeScanHandler extends ScanCallback {
     public void onScanResult(int callbackType, ScanResult result) {
         if (result != null) {
             BluetoothDevice device = result.getDevice();
+            //Any of the bluetooth device
+//            Log.i("ZK999",device.getAddress());
             byte[] scanRecord = result.getScanRecord().getBytes();
             int rssi = result.getRssi();
             if (scanRecord.length == 0 || rssi < -127 || rssi == 127) {

@@ -82,7 +82,6 @@ import java.io.IOException;
 
 public class MainActivity extends BaseActivity implements MokoScanDeviceCallback, BaseQuickAdapter.OnItemChildClickListener {
 
-
     @BindView(R.id.iv_refresh)
     ImageView ivRefresh;
     @BindView(R.id.rv_devices)
@@ -99,9 +98,12 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
     private ArrayList<BeaconXInfo> beaconXInfos;
     private BeaconXListAdapter adapter;
     private String macaddress;
-
+    public static long startTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("{APPTIM_EVENT}", "Appstart");
+        Log.i("{APPTIM_EVENT}:", "Appstart, START");
+        startTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -279,12 +281,15 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
 
     @Override
     public void onScanDevice(DeviceInfo deviceInfo) {
+        // here is still all the BluetoothDevice Info
+        //Log.i("ZK999",deviceInfo.mac);
         final BeaconXInfo beaconXInfo = beaconXInfoParseable.parseDeviceInfo(deviceInfo);
         if (beaconXInfo == null) {
             return;
         }
         beaconXInfoHashMap.put(beaconXInfo.mac, beaconXInfo);
         macaddress = beaconXInfo.mac;
+//        Log.i("Response time",timeThatPassed.toString()+ " MAC :" +macaddress);
     }
 
     @Override
@@ -295,6 +300,15 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
 
     private void updateDevices() {
         beaconXInfos.clear();
+        Log.i("zk99",(String.format("DEVICE(%d)",beaconXInfos.size())));
+        // Debugging to see if it has detected the hashmap
+//        ArrayList<BeaconXInfo> beaconXInfosFilter2 = new ArrayList<>(beaconXInfoHashMap.values());
+//        Iterator<BeaconXInfo> iterator2 = beaconXInfosFilter2.iterator();
+//        while (iterator2.hasNext()) {
+//            BeaconXInfo beaconXInfo2 = iterator2.next();
+//            Log.i("ZK99",beaconXInfo2.mac);
+//
+//        }
         if (!TextUtils.isEmpty(filterName) || filterRssi != -127) {
             ArrayList<BeaconXInfo> beaconXInfosFilter = new ArrayList<>(beaconXInfoHashMap.values());
             Iterator<BeaconXInfo> iterator = beaconXInfosFilter.iterator();
@@ -322,7 +336,9 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
             }
             beaconXInfos.addAll(beaconXInfosFilter);
         } else {
+            // Detected a device
             beaconXInfos.addAll(beaconXInfoHashMap.values());
+            Log.i("zk99",(String.format("DEVICE(%d)",beaconXInfos.size())));
         }
         Collections.sort(beaconXInfos, new Comparator<BeaconXInfo>() {
             @Override
@@ -459,6 +475,7 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
             // 蓝牙未打开，开启蓝牙
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, MokoConstants.REQUEST_CODE_ENABLE_BT);
+
             return;
         }
         animation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);

@@ -2,6 +2,7 @@ package com.moko.beaconx.utils;
 
 import android.os.ParcelUuid;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.moko.beaconx.entity.BeaconXInfo;
 import com.moko.support.entity.DeviceInfo;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import no.nordicsemi.android.support.v18.scanner.ScanRecord;
-
+import com.moko.beaconx.activity.MainActivity;
 /**
  * @Date 2018/1/16
  * @Author wenzheng.liu
@@ -35,6 +36,7 @@ public class BeaconXInfoParseableImpl implements DeviceInfoParseable<BeaconXInfo
         if (map != null && !map.isEmpty()) {
             for (ParcelUuid uuid : map.keySet()) {
                 String serviceDataUuid = uuid.getUuid().toString().toLowerCase();
+                //Log.i("ZKKKK",serviceDataUuid);
                 if (TextUtils.isEmpty(serviceDataUuid)) {
                     continue;
                 }
@@ -76,6 +78,7 @@ public class BeaconXInfoParseableImpl implements DeviceInfoParseable<BeaconXInfo
             beaconXInfoHashMap.put(deviceInfo.mac, beaconXInfo);
         }
         if (beaconXInfo.validDataHashMap.containsKey(unanalysedData)) {
+            Log.i("thisisconfirmabeacon2","BeaconXinfoParseableImpl");
             return beaconXInfo;
         } else {
             BeaconXInfo.ValidData validData = new BeaconXInfo.ValidData();
@@ -104,6 +107,12 @@ public class BeaconXInfoParseableImpl implements DeviceInfoParseable<BeaconXInfo
             }
             beaconXInfo.validDataHashMap.put(unanalysedData, validData);
         }
+        long endTime = System.currentTimeMillis();
+        Long timeThatPassed = endTime - MainActivity.startTime;
+        Log.i("{APPTIM_EVENT}:", "Appstart, STOP");
+        Log.i("Response Time",timeThatPassed.toString());
+        Log.i("Response MAC :",beaconXInfo.mac);
+        Log.i("{APPTIM_EVENT}:", "Filterstart, START");
         return beaconXInfo;
     }
 }
