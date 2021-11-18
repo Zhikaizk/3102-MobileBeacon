@@ -43,7 +43,9 @@ public class Okhttp extends AppCompatActivity {
             mac = extras.getString("mac");
             //The key argument here must match that used in the other activity
         }
-        Request request = new Request.Builder().url("http://ec2-13-229-105-253.ap-southeast-1.compute.amazonaws.com:5000/getmacaddress?MACaddress="+mac+"'").build();
+        //Request request = new Request.Builder().url("http://ec2-13-229-105-253.ap-southeast-1.compute.amazonaws.com:5000/getmacaddress?MACaddress="+mac+"'").build();
+        Request request = new Request.Builder().url("http://13.212.254.10:5000/getmacaddress?MACaddress="+mac+"'").build();
+
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -52,6 +54,7 @@ public class Okhttp extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                Log.d("res","On response log");
                 pagenameTextView.setText(response.body().string());
             }
         });//handles multiple request

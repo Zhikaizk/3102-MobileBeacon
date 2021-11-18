@@ -67,4 +67,5 @@ public class LoadingDialog extends MokoBaseDialog {
         super.onDestroyView();
         ((ProgressDrawable) ivLoading.getDrawable()).stop();
     }
+
 }
