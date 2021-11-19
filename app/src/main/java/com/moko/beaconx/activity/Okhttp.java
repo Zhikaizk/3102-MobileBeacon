@@ -41,8 +41,7 @@ public class Okhttp extends AppCompatActivity {
         TextView tvStaffid = findViewById(R.id.tvStaffid);
 
         tvIpAddr.setText(ip);
-        tvIpAddr.setText(staff);
-
+        tvStaffid.setText(staff);
 
         // creating a client
         OkHttpClient okHttpClient = new OkHttpClient();
