@@ -10,6 +10,8 @@
     <string name="ok">OK</string>
     <string name="confirm">Confirm</string>
     <string name="password_null">Password cannot be empty!</string>
+    <string name="staffid_null">Staff ID cannot be empty!</string>
+    <string name="ipaddr_null">IP Address cannot be empty!</string>
     <string name="device_name_null">The device name cannot be empty!</string>
     <string name="password_length">Length should be 8 bits</string>
     <string name="options_title">Options</string>

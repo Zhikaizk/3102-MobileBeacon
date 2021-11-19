@@ -19,6 +19,7 @@ import com.moko.beaconx.dialog.InputDialog;
 import com.moko.beaconx.dialog.LoadingDialog;
 import com.moko.beaconx.dialog.ModifyPasswordDialog;
 import com.moko.beaconx.dialog.PasswordDialog;
+import com.moko.beaconx.dialog.ScanFilterDialog;
 import com.moko.beaconx.utils.Utils;
 
 import androidx.core.app.ActivityCompat;
@@ -107,8 +108,6 @@ public class GuideActivity extends BaseActivity {
             }
         }
     }
-    private InputDialog mInputDialog;
-    final ModifyPasswordDialog modifyPasswordDialog = new ModifyPasswordDialog(activity);
 
     private void delayGotoMain() {
         if (!Utils.isLocServiceEnable(this)) {
@@ -128,6 +127,41 @@ public class GuideActivity extends BaseActivity {
                 }
             }
         }
+        InputDialog inputDialog = new InputDialog(this);
+        inputDialog.setOnInputClicked(new InputDialog.InputClickListener() {
+            @Override
+            public void onEnsureClicked(String input1, String input2) {
+                //this.modify(password);
+                //then only run the thread aft this thing says ok
+
+                new Thread() {
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //try to ask for ip address and staff id here. once they put le then go to main activity
+
+                                startActivity(new Intent(GuideActivity.this, MainActivity.class));
+                                GuideActivity.this.finish();
+                            }
+                        });
+                    }
+                }.start();
+            }
+
+            @Override
+            public void onDismiss() {
+
+            }
+        });
+        inputDialog.show();
+/*
         new Thread() {
             public void run() {
                 try {
@@ -135,18 +169,18 @@ public class GuideActivity extends BaseActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         //try to ask for ip address and staff id here. once they put le then go to main activity
-
 
                         startActivity(new Intent(GuideActivity.this, MainActivity.class));
                         GuideActivity.this.finish();
                     }
                 });
             }
-        }.start();
+        }.start();*/
     }
 
     private void showOpenSettingsDialog() {
