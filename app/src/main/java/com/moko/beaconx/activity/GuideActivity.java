@@ -129,8 +129,6 @@ public class GuideActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //try to ask for ip address and staff id here. once they put le then go to main activity
-
                         startActivity(new Intent(GuideActivity.this, MainActivity.class));
                         GuideActivity.this.finish();
                     }

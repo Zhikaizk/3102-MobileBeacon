@@ -4,8 +4,6 @@
     <string name="company_name">MOKO TECHNOLOGY LTD.</string>
     <string name="company_website">www.mokosmart.com</string>
     <string name="please_enter_password">Please enter password</string>
-    <string name="please_enter_ip_addr">Please enter IP Address</string>
-    <string name="please_enter_staff_id">Please enter Staff ID</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="confirm">Confirm</string>
