@@ -43,11 +43,6 @@ public class InputActivity extends AppCompatActivity {
                 Intent i = new Intent(InputActivity.this, MainActivity.class);
                 startActivity(i);
 
-//                String ipAddr = (String) etIpAddr.getText().toString();
-//                String staffID = (String) etStaffid.getText().toString();
-//                Intent i = new Intent(InputActivity.this, MainActivity.class);
-//                i.putExtra("IpAddr",ipAddr);
-//                i.putExtra("StaffID",staffID);
             }
         });
     }
