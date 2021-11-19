@@ -1,6 +1,7 @@
 package com.moko.beaconx.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +29,20 @@ public class Okhttp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_okhttp);
-        pagenameTextView = findViewById(R.id.pagename);
+//        pagenameTextView = findViewById(R.id.pagename);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("myKey", MODE_PRIVATE);
+        String staff = sharedPreferences.getString("IpAddr","");
+        String ip = sharedPreferences.getString("StaffID","");
+        Log.d("test", staff + ip);
+
+
+        TextView tvIpAddr = findViewById(R.id.tvIpAddr);
+        TextView tvStaffid = findViewById(R.id.tvStaffid);
+
+        tvIpAddr.setText(ip);
+        tvIpAddr.setText(staff);
+
 
         // creating a client
         OkHttpClient okHttpClient = new OkHttpClient();

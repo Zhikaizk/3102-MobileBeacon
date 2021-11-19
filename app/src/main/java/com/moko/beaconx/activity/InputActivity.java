@@ -1,6 +1,7 @@
 package com.moko.beaconx.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,12 +29,25 @@ public class InputActivity extends AppCompatActivity {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                SharedPreferences sharedPref = getSharedPreferences("myKey", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+
                 String ipAddr = (String) etIpAddr.getText().toString();
                 String staffID = (String) etStaffid.getText().toString();
+
+                editor.putString("IpAddr", ipAddr);
+                editor.putString("StaffID", staffID);
+                editor.apply();
+
                 Intent i = new Intent(InputActivity.this, MainActivity.class);
-                i.putExtra("IpAddr",ipAddr);
-                i.putExtra("StaffID",staffID);
                 startActivity(i);
+
+//                String ipAddr = (String) etIpAddr.getText().toString();
+//                String staffID = (String) etStaffid.getText().toString();
+//                Intent i = new Intent(InputActivity.this, MainActivity.class);
+//                i.putExtra("IpAddr",ipAddr);
+//                i.putExtra("StaffID",staffID);
             }
         });
     }
