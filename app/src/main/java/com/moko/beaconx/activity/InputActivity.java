@@ -22,14 +22,14 @@ public class InputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_activity);
 
-        final Button button = findViewById(R.id.submit);
-        final EditText etIpAddr = findViewById(R.id.etIpAddr);
-        final EditText etStaffid = findViewById(R.id.etstaffid);
+        final Button button = (Button) findViewById(R.id.submit);
+        final EditText etIpAddr = (EditText) findViewById(R.id.etIpAddr);
+        final EditText etStaffid = (EditText) findViewById(R.id.etStaffid);
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String ipAddr = etIpAddr.getText().toString();
-                String staffID = etStaffid.getText().toString();
+                String ipAddr = (String) etIpAddr.getText().toString();
+                String staffID = (String) etStaffid.getText().toString();
                 Intent i = new Intent(InputActivity.this, MainActivity.class);
                 i.putExtra("IpAddr",ipAddr);
                 i.putExtra("StaffID",staffID);
