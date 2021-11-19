@@ -28,10 +28,11 @@ public class InputActivity extends AppCompatActivity {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String value="Beacon test";
+                String ipAddr = etIpAddr.getText().toString();
+                String staffID = etStaffid.getText().toString();
                 Intent i = new Intent(InputActivity.this, MainActivity.class);
-                i.putExtra("etIpAddr",value);
-                i.putExtra("etstaffid",value);
+                i.putExtra("IpAddr",ipAddr);
+                i.putExtra("StaffID",staffID);
                 startActivity(i);
             }
         });
