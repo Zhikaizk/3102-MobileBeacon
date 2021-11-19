@@ -54,7 +54,7 @@
             android:layout_height="40dp">
 
             <TextView
-                android:id="@+id/tv_password_cancel"
+                android:id="@+id/tv_input_cancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.0"
@@ -69,7 +69,7 @@
                 android:background="@color/grey_ebebeb" />
 
             <TextView
-                android:id="@+id/tv_password_ensure"
+                android:id="@+id/tv_input_ensure"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.0"

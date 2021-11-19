@@ -15,6 +15,10 @@ import android.provider.Settings;
 
 import com.moko.beaconx.AppConstants;
 import com.moko.beaconx.R;
+import com.moko.beaconx.dialog.InputDialog;
+import com.moko.beaconx.dialog.LoadingDialog;
+import com.moko.beaconx.dialog.ModifyPasswordDialog;
+import com.moko.beaconx.dialog.PasswordDialog;
 import com.moko.beaconx.utils.Utils;
 
 import androidx.core.app.ActivityCompat;
@@ -32,6 +36,9 @@ public class GuideActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
+
+
+
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
             return;
@@ -100,6 +107,8 @@ public class GuideActivity extends BaseActivity {
             }
         }
     }
+    private InputDialog mInputDialog;
+    final ModifyPasswordDialog modifyPasswordDialog = new ModifyPasswordDialog(activity);
 
     private void delayGotoMain() {
         if (!Utils.isLocServiceEnable(this)) {
@@ -130,6 +139,7 @@ public class GuideActivity extends BaseActivity {
                     @Override
                     public void run() {
                         //try to ask for ip address and staff id here. once they put le then go to main activity
+
 
                         startActivity(new Intent(GuideActivity.this, MainActivity.class));
                         GuideActivity.this.finish();
