@@ -129,7 +129,7 @@ public class GuideActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(new Intent(GuideActivity.this, MainActivity.class));
+                        startActivity(new Intent(GuideActivity.this, InputActivity.class));
                         GuideActivity.this.finish();
                     }
                 });

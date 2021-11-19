@@ -12,7 +12,11 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.AppCompat.Light"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.Okhttp"></activity>
+        <activity
+            android:name=".activity.InputActivity"
+            android:label="@string/title_activity_input"
+            android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".activity.Okhttp" />
         <activity
             android:name=".activity.GuideActivity"
             android:configChanges="orientation|mcc|mnc|keyboard|keyboardHidden|locale|touchscreen|navigation|fontScale|layoutDirection"
