@@ -13,13 +13,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class InputDialog extends BaseDialog<String> {
-    @BindView(R.id.et_ip_addr)
-    EditText etIpAddr;
-    @BindView(R.id.et_staff_id)
-    EditText etStaffId;
-
-    private String inputIpAddr;
-    private String inputStaffId;
+    @BindView(R.id.et_password)
+    EditText etPassword;
 
     public InputDialog(Context context) {
         super(context);
@@ -27,74 +22,63 @@ public class InputDialog extends BaseDialog<String> {
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.dialog_input;
+        return R.layout.dialog_password;
     }
 
     @Override
     protected void renderConvertView(View convertView, String password) {
-        if (!TextUtils.isEmpty(inputIpAddr) || !TextUtils.isEmpty((inputStaffId))) {
-            etIpAddr.setText(inputIpAddr);
-            etIpAddr.setSelection(inputIpAddr.length());
-            etStaffId.setText(inputStaffId);
-            etStaffId.setSelection(inputStaffId.length());
+        if (!TextUtils.isEmpty(password)) {
+            etPassword.setText(password);
+            etPassword.setSelection(password.length());
         }
     }
 
-    @OnClick({R.id.tv_input_cancel, R.id.tv_input_ensure})
+    @OnClick({R.id.tv_password_cancel, R.id.tv_password_ensure})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_input_cancel:
+            case R.id.tv_password_cancel:
                 dismiss();
-                inputClickListener.onDismiss();
+                passwordClickListener.onDismiss();
                 break;
-            case R.id.tv_input_ensure:
+            case R.id.tv_password_ensure:
                 dismiss();
-                //check if null
-                if (TextUtils.isEmpty(etIpAddr.getText().toString())) {
+                if (TextUtils.isEmpty(etPassword.getText().toString())) {
                     ToastUtils.showToast(getContext(), getContext().getString(R.string.password_null));
                     return;
                 }
-                if (TextUtils.isEmpty(etStaffId.getText().toString())) {
-                    ToastUtils.showToast(getContext(), getContext().getString(R.string.password_null));
+                if (etPassword.getText().toString().length() != 8) {
+                    ToastUtils.showToast(getContext(), getContext().getString(R.string.password_length));
                     return;
                 }
-
-                inputClickListener.onEnsureClicked(etIpAddr.getText().toString());
-                inputClickListener.onEnsureClicked(etStaffId.getText().toString());
+                passwordClickListener.onEnsureClicked(etPassword.getText().toString());
                 break;
         }
     }
 
-    private InputDialog.InputClickListener inputClickListener;
+    private PasswordDialog.PasswordClickListener passwordClickListener;
 
-    public void setOnInputClicked(InputDialog.InputClickListener inputClickListener) {
-        this.inputClickListener = inputClickListener;
+    public void setOnPasswordClicked(PasswordDialog.PasswordClickListener passwordClickListener) {
+        this.passwordClickListener = passwordClickListener;
     }
 
-    public interface InputClickListener {
+    public interface PasswordClickListener {
 
-        void onEnsureClicked(String input);
+        void onEnsureClicked(String password);
 
         void onDismiss();
     }
 
     public void showKeyboard() {
-        if (etIpAddr != null && etStaffId !=null) {
+        if (etPassword != null) {
             //设置可获得焦点
-            etIpAddr.setFocusable(true);
-            etIpAddr.setFocusableInTouchMode(true);
-            //设置可获得焦点
-            etStaffId.setFocusable(true);
-            etStaffId.setFocusableInTouchMode(true);
+            etPassword.setFocusable(true);
+            etPassword.setFocusableInTouchMode(true);
             //请求获得焦点
-            etIpAddr.requestFocus();
-            //请求获得焦点
-            etStaffId.requestFocus();
+            etPassword.requestFocus();
             //调用系统输入法
-            InputMethodManager inputManager = (InputMethodManager) etIpAddr.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.showSoftInput(etIpAddr, 0);
-            InputMethodManager inputManager1 = (InputMethodManager) etStaffId.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager1.showSoftInput(etStaffId, 0);
+            InputMethodManager inputManager = (InputMethodManager) etPassword
+                    .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.showSoftInput(etPassword, 0);
         }
     }
 }
