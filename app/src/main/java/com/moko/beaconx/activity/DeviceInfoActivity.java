@@ -524,25 +524,11 @@ public class DeviceInfoActivity extends BaseActivity implements RadioGroup.OnChe
     }
 
     private boolean isModifyPassword;
-    private boolean isModifyIpAddr;
-    private boolean isModifyStaffId;
 
     public void modifyPassword(String password) {
         isModifyPassword = true;
         showLoadingProgressDialog();
         MokoSupport.getInstance().sendOrder(OrderTaskAssembler.setLockState(password));
-    }
-
-    public void modifyIpAddr(String ipAddr) {
-        isModifyIpAddr = true;
-        showLoadingProgressDialog();
-        MokoSupport.getInstance().sendOrder(OrderTaskAssembler.setLockState(ipAddr));
-    }
-
-    public void modifyStaffId(String staffId) {
-        isModifyStaffId = true;
-        showLoadingProgressDialog();
-        MokoSupport.getInstance().sendOrder(OrderTaskAssembler.setLockState(staffId));
     }
 
     public void resetDevice() {

@@ -51,15 +51,16 @@ public class InputDialog extends BaseDialog<String> {
                 dismiss();
                 //check if null
                 if (TextUtils.isEmpty(etIpAddr.getText().toString())) {
-                    ToastUtils.showToast(getContext(), getContext().getString(R.string.ipaddr_null));
+                    ToastUtils.showToast(getContext(), getContext().getString(R.string.password_null));
                     return;
                 }
                 if (TextUtils.isEmpty(etStaffId.getText().toString())) {
-                    ToastUtils.showToast(getContext(), getContext().getString(R.string.staffid_null));
+                    ToastUtils.showToast(getContext(), getContext().getString(R.string.password_null));
                     return;
                 }
 
-                inputClickListener.onEnsureClicked(etIpAddr.getText().toString(), etStaffId.getText().toString());
+                inputClickListener.onEnsureClicked(etIpAddr.getText().toString());
+                inputClickListener.onEnsureClicked(etStaffId.getText().toString());
                 break;
         }
     }
@@ -72,7 +73,7 @@ public class InputDialog extends BaseDialog<String> {
 
     public interface InputClickListener {
 
-        void onEnsureClicked(String input1, String input2);
+        void onEnsureClicked(String input);
 
         void onDismiss();
     }
