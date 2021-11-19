@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.moko.beaconx.R;
 
@@ -21,13 +22,16 @@ public class InputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_activity);
 
-
         final Button button = findViewById(R.id.submit);
+        final EditText etIpAddr = findViewById(R.id.etIpAddr);
+        final EditText etStaffid = findViewById(R.id.etstaffid);
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String value="Beacon test";
                 Intent i = new Intent(InputActivity.this, MainActivity.class);
-                i.putExtra("key",value);
+                i.putExtra("etIpAddr",value);
+                i.putExtra("etstaffid",value);
                 startActivity(i);
             }
         });
