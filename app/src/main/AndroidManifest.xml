@@ -14,8 +14,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".activity.InputActivity"
-            android:label="@string/title_activity_input"
-            android:theme="@style/NoActionBar"></activity>
+
+          ></activity>
         <activity android:name=".activity.Okhttp" />
         <activity
             android:name=".activity.GuideActivity"

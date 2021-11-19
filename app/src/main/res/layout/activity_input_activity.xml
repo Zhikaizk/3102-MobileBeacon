@@ -10,21 +10,25 @@
         android:id="@+id/tvIpAddr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="172dp"
         android:text="Enter IP Address"
-        app:layout_constraintBottom_toTopOf="@+id/etIpAddr"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.797"
-        tools:layout_editor_absoluteX="153dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etIpAddr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+
         android:ems="10"
         android:inputType="textPersonName"
-
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="182dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvIpAddr" />
 
     <TextView
         android:id="@+id/tvstaffid"
@@ -32,8 +36,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:text="Enter Staff id:"
-        app:layout_constraintTop_toBottomOf="@+id/etIpAddr"
-        tools:layout_editor_absoluteX="160dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etIpAddr" />
 
     <EditText
         android:id="@+id/etstaffid"
@@ -43,8 +48,9 @@
         android:ems="10"
 
         android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/tvstaffid"
-        tools:layout_editor_absoluteX="100dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvstaffid" />
 
     <Button
         android:id="@+id/submit"
@@ -52,7 +58,8 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etstaffid"
-        app:layout_constraintVertical_bias="0.165"
-        tools:layout_editor_absoluteX="160dp" />
+        app:layout_constraintVertical_bias="0.165" />
 </androidx.constraintlayout.widget.ConstraintLayout>
