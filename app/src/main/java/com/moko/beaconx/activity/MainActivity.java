@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Debug;
+import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -55,6 +59,7 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,9 +70,12 @@ import butterknife.OnClick;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -78,6 +86,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends BaseActivity implements MokoScanDeviceCallback, BaseQuickAdapter.OnItemChildClickListener {
@@ -98,11 +109,16 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
     private ArrayList<BeaconXInfo> beaconXInfos;
     private BeaconXListAdapter adapter;
     private String macaddress;
+    private String macaddress2;
     public static long startTime;
+    public String ipaddress;
+    public String staffid;
+    private TextView pagenameTextView;
+    public int counter;
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("{APPTIM_EVENT}", "Appstart");
-        Log.i("{APPTIM_EVENT}:", "Appstart, START");
         startTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -122,6 +138,9 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
         EventBus.getDefault().register(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        SharedPreferences sharedPref = getSharedPreferences("myKey", MODE_PRIVATE);
+        ipaddress = sharedPref.getString("IpAddr", "");
+        staffid = sharedPref.getString("StaffID", "");
         registerReceiver(mReceiver, filter);
         if (animation == null) {
             startScan();
@@ -253,7 +272,9 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //Debug.stopMethodTracing();
         unregisterReceiver(mReceiver);
+        executorService.shutdown();
         EventBus.getDefault().unregister(this);
     }
 
@@ -281,15 +302,27 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
 
     @Override
     public void onScanDevice(DeviceInfo deviceInfo) {
-        // here is still all the BluetoothDevice Info
-        //Log.i("ZK999",deviceInfo.mac);
         final BeaconXInfo beaconXInfo = beaconXInfoParseable.parseDeviceInfo(deviceInfo);
         if (beaconXInfo == null) {
             return;
         }
         beaconXInfoHashMap.put(beaconXInfo.mac, beaconXInfo);
-        macaddress = beaconXInfo.mac;
-//        Log.i("Response time",timeThatPassed.toString()+ " MAC :" +macaddress);
+        macaddress2 = beaconXInfo.mac.replaceAll(":", "");
+        OkHttpClient okHttpClient = new OkHttpClient();
+        //macaddress remember to add back !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Request request = new Request.Builder().url("http://"+ipaddress+":5000/getmacaddress?MACaddress="+macaddress2+"&staffid="+staffid+"").build();
+        //Request request=new Request.Builder().url("").build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+            }
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                // pagenameTextView.setText(response.body().string());
+                Log.d("hihi",response.body().string());
+            }
+        });//handles multiple request
+
     }
 
     @Override
@@ -300,15 +333,6 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
 
     private void updateDevices() {
         beaconXInfos.clear();
-        Log.i("zk99",(String.format("DEVICE(%d)",beaconXInfos.size())));
-        // Debugging to see if it has detected the hashmap
-//        ArrayList<BeaconXInfo> beaconXInfosFilter2 = new ArrayList<>(beaconXInfoHashMap.values());
-//        Iterator<BeaconXInfo> iterator2 = beaconXInfosFilter2.iterator();
-//        while (iterator2.hasNext()) {
-//            BeaconXInfo beaconXInfo2 = iterator2.next();
-//            Log.i("ZK99",beaconXInfo2.mac);
-//
-//        }
         if (!TextUtils.isEmpty(filterName) || filterRssi != -127) {
             ArrayList<BeaconXInfo> beaconXInfosFilter = new ArrayList<>(beaconXInfoHashMap.values());
             Iterator<BeaconXInfo> iterator = beaconXInfosFilter.iterator();
@@ -338,7 +362,7 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
         } else {
             // Detected a device
             beaconXInfos.addAll(beaconXInfoHashMap.values());
-            Log.i("zk99",(String.format("DEVICE(%d)",beaconXInfos.size())));
+
         }
         Collections.sort(beaconXInfos, new Comparator<BeaconXInfo>() {
             @Override
@@ -351,7 +375,42 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
                 return 0;
             }
         });
+//        }
+        if (beaconXInfos.size() != 0) {
+
+//
+//            if (counter == 0) {
+//                pushingtoserver();
+//                counter = counter + 1;
+            //}
+        }
+
     }
+
+   /* private void pushingtoserver(){
+        executorService.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+                OkHttpClient okHttpClient = new OkHttpClient();
+                         //macaddress remember to add back !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        Request request = new Request.Builder().url("http://"+ipaddress+":5000/getmacaddress?MACaddress="+macaddress2+"&staffid="+staffid+"").build();
+                        //Request request=new Request.Builder().url("").build();
+                        okHttpClient.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                            }
+                            @Override
+                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                // pagenameTextView.setText(response.body().string());
+                                Log.d("hihi",response.body().string());
+                            }
+                        });//handles multiple request
+
+            }
+        }, 0, 1, TimeUnit.SECONDS);
+
+
+    }*/
+
 
 
     private LoadingDialog mLoadingDialog;
@@ -482,12 +541,12 @@ public class MainActivity extends BaseActivity implements MokoScanDeviceCallback
         findViewById(R.id.iv_refresh).startAnimation(animation);
         beaconXInfoParseable = new BeaconXInfoParseableImpl();
         MokoSupport.getInstance().startScanDevice(this);
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                MokoSupport.getInstance().stopScanDevice();
-            }
-        }, 1000 * 60);
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                MokoSupport.getInstance().stopScanDevice();
+//            }
+//        }, 1000 * 10);
     }
 
     private String mPassword;
